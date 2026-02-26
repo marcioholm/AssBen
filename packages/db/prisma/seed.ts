@@ -34,7 +34,84 @@ async function main() {
         }
     });
 
-    // 2. Create Companies
+    // 2. Create Fictitious Companies
+    const fictitiousCompanies = [
+        { name: "Supermercado São José", cnpj: "11222333000144", cat: "Alimentação" },
+        { name: "Posto Avenida", cnpj: "55666777000188", cat: "Combustíveis" },
+        { name: "Farmácia Vida", cnpj: "99888777000166", cat: "Saúde" },
+        { name: "Padaria Pão de Mel", cnpj: "44333222000111", cat: "Alimentação" },
+        { name: "Loja de Roupas Estilo", cnpj: "77666555000133", cat: "Moda" },
+    ];
+
+    const pinAssociado = await argon2.hash('1234', { type: argon2.argon2id });
+    const dependentsSuffixes = ["Filho(a)", "Cônjuge", "Enteado(a)"];
+
+    for (const company of fictitiousCompanies) {
+        const p = await prisma.parceiro.upsert({
+            where: { cnpj: company.cnpj },
+            update: {
+                nomeFantasia: company.name,
+                categoria: company.cat,
+                regrasDesconto: '10% de desconto em produtos selecionados',
+                statusWorkFlow: 'ATIVO'
+            },
+            create: {
+                cnpj: company.cnpj,
+                nomeFantasia: company.name,
+                categoria: company.cat,
+                regrasDesconto: '10% de desconto em produtos selecionados',
+                statusWorkFlow: 'ATIVO',
+                tenantId
+            }
+        });
+
+        // 2 Employees per company
+        for (let i = 1; i <= 2; i++) {
+            const titularCpf = (Math.floor(Math.random() * 90000000000) + 10000000000).toString();
+            const titularName = `Funcionario ${i} da ${company.name}`;
+
+            const titular = await prisma.beneficiario.upsert({
+                where: { cpfHmac: hashHmac(titularCpf) },
+                update: {},
+                create: {
+                    nome: titularName,
+                    cpfCrypt: encrypt(titularCpf),
+                    cpfHmac: hashHmac(titularCpf),
+                    pinHash: pinAssociado,
+                    tipoVinculo: 'FUNCIONARIO',
+                    status: 'ATIVO',
+                    associadoEmpresaId: p.id,
+                    forcarTrocaPin: true,
+                    tenantId
+                }
+            });
+
+            // 3 Dependents per employee
+            for (let j = 0; j < 3; j++) {
+                const depCpf = (Math.floor(Math.random() * 90000000000) + 10000000000).toString();
+                const depName = `Dependente ${j + 1} (${dependentsSuffixes[j]}) de ${titularName}`;
+
+                await prisma.beneficiario.upsert({
+                    where: { cpfHmac: hashHmac(depCpf) },
+                    update: {},
+                    create: {
+                        nome: depName,
+                        cpfCrypt: encrypt(depCpf),
+                        cpfHmac: hashHmac(depCpf),
+                        pinHash: pinAssociado,
+                        tipoVinculo: 'DEPENDENTE',
+                        status: 'ATIVO',
+                        associadoEmpresaId: p.id,
+                        titularId: titular.id,
+                        forcarTrocaPin: true,
+                        tenantId
+                    }
+                });
+            }
+        }
+    }
+
+    // 3. Create Specific Test Users (Legacy/README)
     const p1 = await prisma.parceiro.upsert({
         where: { cnpj: '12345678000100' },
         update: {},
@@ -47,7 +124,6 @@ async function main() {
         }
     });
 
-    // 3. Create Beneficiaries
     const pin = await argon2.hash('1234', { type: argon2.argon2id });
 
     // ASSOCIADO (Test User from README)
