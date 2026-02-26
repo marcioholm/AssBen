@@ -12,10 +12,8 @@ export class SecurityService {
         const hKey = this.configService.get<string>('HMAC_KEY');
 
         if (!encKey || !hKey) {
-            console.error('[SECURITY_ERROR] ENCRYPTION_KEY or HMAC_KEY is missing from environment!');
             throw new Error('ENCRYPTION_KEY or HMAC_KEY is not defined');
         }
-        console.log('[SECURITY_INIT] Keys found, initializing...');
 
         this.encryptionKey = encKey;
         this.hmacKey = hKey;
