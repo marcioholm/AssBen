@@ -11,7 +11,8 @@ const slides = [
             "Fomentar o comércio local",
             "Aumentar o fluxo de clientes",
             "Valorizar os colaboradores"
-        ]
+        ],
+        image: "/images/slides/local_commerce.png"
     },
     {
         title: "Vantagens para o seu Negócio",
@@ -20,7 +21,8 @@ const slides = [
             "Clientes qualificados e recorrentes",
             "Custo zero de adesão",
             "Marketing direcionado na vitrine do app"
-        ]
+        ],
+        image: "/images/slides/networking.png"
     },
     {
         title: "Vantagens para o Colaborador",
@@ -29,7 +31,8 @@ const slides = [
             "Descontos reais no dia a dia",
             "Sentimento de valorização (RH)",
             "Extensivo aos dependentes"
-        ]
+        ],
+        image: "/images/slides/networking.png"
     },
     {
         title: "Como funciona na prática?",
@@ -38,7 +41,8 @@ const slides = [
             "O cliente gera um QR Code dinâmico no app",
             "Seu caixa lê o QR Code pelo portal do parceiro",
             "O desconto é aplicado na hora, sem fraudes"
-        ]
+        ],
+        image: "/images/slides/checkout.png"
     }
 ];
 
@@ -125,20 +129,31 @@ export default function VendasPage() {
                         ref={presentationRef}
                         className={`bg-slate-900 transition-all duration-300 ${isFullscreen ? 'h-screen w-screen flex flex-col' : 'aspect-video relative overflow-hidden'}`}
                     >
-                        {/* Slide Content */}
-                        <div className="flex-1 flex flex-col justify-center px-12 md:px-24">
+                        {/* Slide Image Background Layer */}
+                        <div className="absolute inset-0 z-0">
+                            <img
+                                src={slides[currentSlide].image}
+                                alt="Slide Background"
+                                className="w-full h-full object-cover opacity-50 transition-all duration-700 ease-in-out"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-900 xl:via-slate-900/90 to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                        </div>
+
+                        {/* Slide Content Layer */}
+                        <div className="relative z-10 flex-1 flex flex-col justify-center px-12 md:px-24">
                             <div className="max-w-4xl mx-auto w-full">
-                                <span className="text-blue-400 font-semibold tracking-wider uppercase text-sm mb-4 block">ACEBRAZ Benefícios</span>
-                                <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                                <span className="text-blue-400 font-bold tracking-widest uppercase text-sm mb-6 block drop-shadow-md">ACEBRAZ Benefícios</span>
+                                <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight drop-shadow-xl">
                                     {slides[currentSlide].title}
                                 </h1>
-                                <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-3xl leading-relaxed">
+                                <p className="text-2xl md:text-3xl font-medium text-slate-200 mb-14 max-w-3xl leading-relaxed drop-shadow-lg">
                                     {slides[currentSlide].content}
                                 </p>
                                 <div className="space-y-6">
                                     {slides[currentSlide].points.map((point, i) => (
-                                        <div key={i} className="flex items-center gap-4 text-lg md:text-xl text-slate-200 bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                                            <CheckCircle2 className="h-6 w-6 text-green-400 shrink-0" />
+                                        <div key={i} className="flex items-center gap-6 text-xl md:text-2xl font-semibold text-white bg-slate-900/40 p-6 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl transition-all hover:bg-slate-900/60 hover:scale-[1.02]">
+                                            <CheckCircle2 className="h-8 w-8 text-green-400 shrink-0 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
                                             <span>{point}</span>
                                         </div>
                                     ))}
