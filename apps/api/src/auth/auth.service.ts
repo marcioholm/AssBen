@@ -27,48 +27,58 @@ export class AuthService {
     }
 
     async beneficiaryLogin(dto: BeneficiaryLoginDto) {
-        const cpfHmac = this.security.hashCpfForSearch(dto.cpf);
-        const beneficiary = await this.prisma.beneficiario.findUnique({
-            where: { cpfHmac },
-        });
+        try {
+            const cpfHmac = this.security.hashCpfForSearch(dto.cpf);
+            const beneficiary = await this.prisma.beneficiario.findUnique({
+                where: { cpfHmac },
+            });
 
-        if (!beneficiary || beneficiary.status !== 'ATIVO') {
-            throw new UnauthorizedException('Beneficiário não encontrado ou inativo');
-        }
+            if (!beneficiary || beneficiary.status !== 'ATIVO') {
+                throw new UnauthorizedException('Beneficiário não encontrado ou inativo');
+            }
 
-        // Check if blocked
-        if (beneficiary.bloqueadoAte && beneficiary.bloqueadoAte > new Date()) {
-            throw new UnauthorizedException(`Conta bloqueada até ${beneficiary.bloqueadoAte.toLocaleString()}`);
-        }
+            // Check if blocked
+            if (beneficiary.bloqueadoAte && beneficiary.bloqueadoAte > new Date()) {
+                throw new UnauthorizedException(`Conta bloqueada até ${beneficiary.bloqueadoAte.toLocaleString()}`);
+            }
 
-        const isPinValid = await this.security.verifyPin(dto.pin, beneficiary.pinHash);
+            const isPinValid = await this.security.verifyPin(dto.pin, beneficiary.pinHash);
 
-        if (!isPinValid) {
-            // Increment attempts
+            if (!isPinValid) {
+                // Increment attempts
+                await this.prisma.beneficiario.update({
+                    where: { id: beneficiary.id },
+                    data: {
+                        tentativasPin: { increment: 1 },
+                        bloqueadoAte: beneficiary.tentativasPin + 1 >= 5 ? new Date(Date.now() + 30 * 60 * 1000) : null, // 30 mins block
+                    }
+                });
+                throw new UnauthorizedException('PIN inválido');
+            }
+
+            // Reset attempts on success
             await this.prisma.beneficiario.update({
                 where: { id: beneficiary.id },
-                data: {
-                    tentativasPin: { increment: 1 },
-                    bloqueadoAte: beneficiary.tentativasPin + 1 >= 5 ? new Date(Date.now() + 30 * 60 * 1000) : null, // 30 mins block
-                }
+                data: { tentativasPin: 0, bloqueadoAte: null }
             });
-            throw new UnauthorizedException('PIN inválido');
+
+            return {
+                access_token: this.jwtService.sign({ sub: beneficiary.id, role: 'BENEFICIARY' }),
+                user: {
+                    id: beneficiary.id,
+                    nome: beneficiary.nome,
+                    tipoVinculo: beneficiary.tipoVinculo,
+                    forcarTrocaPin: beneficiary.forcarTrocaPin
+                },
+            };
+        } catch (error: any) {
+            console.error('[LOGIN_ERROR]', error);
+            return {
+                statusCode: 500,
+                message: 'Internal debug error',
+                debug: error.message,
+                stack: error.stack?.split('\n')[0]
+            };
         }
-
-        // Reset attempts on success
-        await this.prisma.beneficiario.update({
-            where: { id: beneficiary.id },
-            data: { tentativasPin: 0, bloqueadoAte: null }
-        });
-
-        return {
-            access_token: this.jwtService.sign({ sub: beneficiary.id, role: 'BENEFICIARY' }),
-            user: {
-                id: beneficiary.id,
-                nome: beneficiary.nome,
-                tipoVinculo: beneficiary.tipoVinculo,
-                forcarTrocaPin: beneficiary.forcarTrocaPin
-            },
-        };
     }
 }
