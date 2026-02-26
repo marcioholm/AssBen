@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  tenantId     String   @default("acebraz")
+  nome         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([tenantId])
+}
+
+model Parceiro {
+  id                 String      @id @default(uuid())
+  tenantId           String      @default("acebraz")
+  cnpj               String      @unique
+  nomeFantasia       String
+  categoria          String
+  subcategoria       String?
+  endereco           String?
+  contato            String?
+  logoUrl            String?
+  regrasDesconto     String?     @db.Text
+  
+  // Vendas & Workflow
+  statusWorkFlow     String      @default("LEAD") // LEAD, NEGOCIACAO, FECHADO, DOCS, CADASTRADO, ATIVO
+  anotacoes          String?     @db.Text
+  responsavel        String?
+  descontoAssociado   String?
+  descontoFuncionario String?
+  descontoDependente  String?
+  restricoes         String?     @db.Text
+
+  ativo              Boolean     @default(true)
+  tokenValidacao     String      @unique @default(dbgenerated("gen_random_uuid()"))
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  validacoes         Validacao[]
+  beneficiarios      Beneficiario[]
+
+  @@index([tenantId])
+}
+
+model RevalidacaoHistorico {
+  id              String      @id @default(uuid())
+  tenantId        String      @default("acebraz")
+  beneficiarioId  String
+  dataRevalidacao DateTime    @default(now())
+  novaValidade    DateTime
+  responsavel     String
+
+  beneficiario    Beneficiario @relation(fields: [beneficiarioId], references: [id])
+
+  @@index([tenantId, beneficiarioId])
+}
+
+model Beneficiario {
+  id                 String      @id @default(uuid())
+  tenantId           String      @default("acebraz")
+  nome               String
+  cpfCrypt           String      // AES-256-GCM
+  cpfHmac            String      @unique // HMAC-SHA256 for searching
+  pinHash            String      // Argon2
+  tipoVinculo        String      // ASSOCIADO, FUNCIONARIO, DEPENDENTE
+  status             String      @default("ATIVO") // ATIVO, INATIVO
+  validade           DateTime?
+  associadoEmpresaId String?
+  titularId          String?
+  tentativasPin      Int         @default(0)
+  bloqueadoAte       DateTime?
+  forcarTrocaPin     Boolean     @default(false)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  
+  associadoEmpresa Parceiro?      @relation(fields: [associadoEmpresaId], references: [id])
+  titular          Beneficiario?  @relation("DependenteParaTitular", fields: [titularId], references: [id])
+  dependentes      Beneficiario[] @relation("DependenteParaTitular")
+  validacoes       Validacao[]
+  historicoRevalidacoes RevalidacaoHistorico[]
+
+  @@index([tenantId, cpfHmac, associadoEmpresaId])
+}
+
+model Validacao {
+  id             String       @id @default(uuid())
+  tenantId       String       @default("acebraz")
+  parceiroId     String
+  beneficiarioId String
+  metodo         String       // QR_CODE, CPF_PIN
+  resultado      String       // APROVADO, NEGADO, ERRO
+  timestamp      DateTime     @default(now())
+
+  parceiro       Parceiro     @relation(fields: [parceiroId], references: [id])
+  beneficiario   Beneficiario @relation(fields: [beneficiarioId], references: [id])
+
+  @@index([tenantId, parceiroId, beneficiarioId, timestamp])
+}
+
+model Nonce {
+  id        String   @id @default(uuid())
+  tenantId  String   @default("acebraz")
+  nonce     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([tenantId, expiresAt])
+}

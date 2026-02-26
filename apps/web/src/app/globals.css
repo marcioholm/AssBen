@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #1c8f48;
+  --accent: #fbf32f;
+}
+
+body {
+  color: #1c8f48;
+  background: white;
+  min-height: 100vh;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(28, 143, 72, 0.15);
+}
+
+.card-digital {
+  @apply relative overflow-hidden rounded-3xl p-8 shadow-2xl;
+  background: linear-gradient(135deg, #1c8f48 0%, #156d36 100%);
+  color: white;
+  border: 2px solid rgba(251, 243, 47, 0.3);
+}
+
+.btn-acebraz {
+  @apply rounded-2xl py-4 px-8 font-bold text-center transition-all active:scale-95 shadow-lg flex items-center justify-center gap-3;
+}
+
+.btn-primary {
+  @apply bg-[#1c8f48] text-white hover:bg-[#156d36] shadow-[#1c8f48]/20;
+}
+
+.btn-accent {
+  @apply bg-[#fbf32f] text-[#1c8f48] hover:bg-[#ebdf1a] shadow-[#fbf32f]/20;
+}
