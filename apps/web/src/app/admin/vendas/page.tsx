@@ -88,26 +88,26 @@ export default function VendasPage() {
             <div className="flex space-x-4 border-b border-slate-200">
                 <button
                     onClick={() => setActiveTab('slides')}
-                    className={`pb-4 px-2 font-medium transition-colors relative ${activeTab === 'slides' ? 'text-blue-600' : 'text-slate-500 hover:text-slate-700'}`}
+                    className={`pb-4 px-2 font-medium transition-colors relative ${activeTab === 'slides' ? 'text-brand-green' : 'text-slate-500 hover:text-slate-700'}`}
                 >
                     <div className="flex items-center gap-2">
                         <Presentation className="h-4 w-4" />
                         Apresentação de Impacto
                     </div>
                     {activeTab === 'slides' && (
-                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-t-full" />
+                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green rounded-t-full" />
                     )}
                 </button>
                 <button
                     onClick={() => setActiveTab('textos')}
-                    className={`pb-4 px-2 font-medium transition-colors relative ${activeTab === 'textos' ? 'text-blue-600' : 'text-slate-500 hover:text-slate-700'}`}
+                    className={`pb-4 px-2 font-medium transition-colors relative ${activeTab === 'textos' ? 'text-brand-green' : 'text-slate-500 hover:text-slate-700'}`}
                 >
                     <div className="flex items-center gap-2">
                         <MessageCircle className="h-4 w-4" />
                         Textos Prontos
                     </div>
                     {activeTab === 'textos' && (
-                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-t-full" />
+                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green rounded-t-full" />
                     )}
                 </button>
             </div>
@@ -143,7 +143,7 @@ export default function VendasPage() {
                         {/* Slide Content Layer */}
                         <div className="relative z-10 flex-1 flex flex-col justify-center px-12 md:px-24">
                             <div className="max-w-4xl mx-auto w-full">
-                                <span className="text-blue-400 font-bold tracking-widest uppercase text-sm mb-6 block drop-shadow-md">ACEBRAZ Benefícios</span>
+                                <span className="text-brand-yellow font-bold tracking-widest uppercase text-sm mb-6 block drop-shadow-md">ACEBRAZ Benefícios</span>
                                 <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight drop-shadow-xl">
                                     {slides[currentSlide].title}
                                 </h1>
@@ -153,7 +153,7 @@ export default function VendasPage() {
                                 <div className="space-y-6">
                                     {slides[currentSlide].points.map((point, i) => (
                                         <div key={i} className="flex items-center gap-6 text-xl md:text-2xl font-semibold text-white bg-slate-900/40 p-6 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl transition-all hover:bg-slate-900/60 hover:scale-[1.02]">
-                                            <CheckCircle2 className="h-8 w-8 text-green-400 shrink-0 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
+                                            <CheckCircle2 className="h-8 w-8 text-brand-green shrink-0 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
                                             <span>{point}</span>
                                         </div>
                                     ))}
@@ -162,26 +162,32 @@ export default function VendasPage() {
                         </div>
 
                         {/* Navigation Controls */}
-                        <div className="absolute bottom-0 left-0 w-full p-6 flex justify-between items-center bg-gradient-to-t from-slate-900 to-transparent">
+                        <div className="absolute bottom-0 left-0 w-full p-6 flex justify-between items-center bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent z-20">
                             <div className="flex gap-2">
                                 {slides.map((_, i) => (
-                                    <div key={i} className={`h-1.5 rounded-full transition-all ${i === currentSlide ? 'w-8 bg-blue-500' : 'w-2 bg-slate-700'}`} />
+                                    <button
+                                        key={i}
+                                        onClick={() => setCurrentSlide(i)}
+                                        className={`h-2 rounded-full transition-all ${i === currentSlide ? 'w-10 bg-brand-green shadow-[0_0_10px_rgba(28,143,72,0.8)]' : 'w-3 bg-slate-600 hover:bg-slate-400'}`}
+                                    />
                                 ))}
                             </div>
                             <div className="flex gap-4">
                                 <button
-                                    onClick={prevSlide}
+                                    onClick={(e) => { e.stopPropagation(); prevSlide(); }}
                                     disabled={currentSlide === 0}
-                                    className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 disabled:opacity-30 disabled:hover:bg-white/10 transition-colors backdrop-blur-md"
+                                    className="p-4 rounded-full bg-slate-800/80 text-white hover:bg-brand-green disabled:opacity-30 disabled:hover:bg-slate-800/80 transition-all backdrop-blur-md border border-white/10 shadow-lg cursor-pointer"
+                                    aria-label="Slide anterior"
                                 >
-                                    <ChevronLeft className="h-6 w-6" />
+                                    <ChevronLeft className="h-8 w-8" />
                                 </button>
                                 <button
-                                    onClick={nextSlide}
+                                    onClick={(e) => { e.stopPropagation(); nextSlide(); }}
                                     disabled={currentSlide === slides.length - 1}
-                                    className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 disabled:opacity-30 disabled:hover:bg-white/10 transition-colors backdrop-blur-md"
+                                    className="p-4 rounded-full bg-slate-800/80 text-white hover:bg-brand-green disabled:opacity-30 disabled:hover:bg-slate-800/80 transition-all backdrop-blur-md border border-white/10 shadow-lg cursor-pointer"
+                                    aria-label="Próximo slide"
                                 >
-                                    <ChevronRight className="h-6 w-6" />
+                                    <ChevronRight className="h-8 w-8" />
                                 </button>
                             </div>
                         </div>

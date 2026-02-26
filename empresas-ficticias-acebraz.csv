@@ -1,0 +1,41 @@
+companyCnpj,name,cpf,phone,type,titularCpf
+11222333000144,Funcionario 1 da Supermercado São José,97689311793,4391739777910000000,TITULAR,
+11222333000144,Dependente 1 (Filho(a)) de Funcionario 1 da Supermercado São José,93177878003,,DEPENDENT,97689311793
+11222333000144,Dependente 2 (Cônjuge) de Funcionario 1 da Supermercado São José,26885341838,,DEPENDENT,97689311793
+11222333000144,Dependente 3 (Enteado(a)) de Funcionario 1 da Supermercado São José,88018035949,,DEPENDENT,97689311793
+11222333000144,Funcionario 2 da Supermercado São José,75960168885,4393653277010000000,TITULAR,
+11222333000144,Dependente 1 (Filho(a)) de Funcionario 2 da Supermercado São José,71969064239,,DEPENDENT,75960168885
+11222333000144,Dependente 2 (Cônjuge) de Funcionario 2 da Supermercado São José,38671800750,,DEPENDENT,75960168885
+11222333000144,Dependente 3 (Enteado(a)) de Funcionario 2 da Supermercado São José,40135140830,,DEPENDENT,75960168885
+55666777000188,Funcionario 1 da Posto Avenida,52008311810,4395761288910000000,TITULAR,
+55666777000188,Dependente 1 (Filho(a)) de Funcionario 1 da Posto Avenida,23656327149,,DEPENDENT,52008311810
+55666777000188,Dependente 2 (Cônjuge) de Funcionario 1 da Posto Avenida,69053843285,,DEPENDENT,52008311810
+55666777000188,Dependente 3 (Enteado(a)) de Funcionario 1 da Posto Avenida,11203555561,,DEPENDENT,52008311810
+55666777000188,Funcionario 2 da Posto Avenida,22822766938,4391390261810000000,TITULAR,
+55666777000188,Dependente 1 (Filho(a)) de Funcionario 2 da Posto Avenida,94655826749,,DEPENDENT,22822766938
+55666777000188,Dependente 2 (Cônjuge) de Funcionario 2 da Posto Avenida,47894739662,,DEPENDENT,22822766938
+55666777000188,Dependente 3 (Enteado(a)) de Funcionario 2 da Posto Avenida,50835633763,,DEPENDENT,22822766938
+99888777000166,Funcionario 1 da Farmácia Vida,41669842553,4396118225510000000,TITULAR,
+99888777000166,Dependente 1 (Filho(a)) de Funcionario 1 da Farmácia Vida,74159665507,,DEPENDENT,41669842553
+99888777000166,Dependente 2 (Cônjuge) de Funcionario 1 da Farmácia Vida,12432990163,,DEPENDENT,41669842553
+99888777000166,Dependente 3 (Enteado(a)) de Funcionario 1 da Farmácia Vida,68323005144,,DEPENDENT,41669842553
+99888777000166,Funcionario 2 da Farmácia Vida,73868257756,4391333094510000000,TITULAR,
+99888777000166,Dependente 1 (Filho(a)) de Funcionario 2 da Farmácia Vida,49496492002,,DEPENDENT,73868257756
+99888777000166,Dependente 2 (Cônjuge) de Funcionario 2 da Farmácia Vida,68613047056,,DEPENDENT,73868257756
+99888777000166,Dependente 3 (Enteado(a)) de Funcionario 2 da Farmácia Vida,54721250499,,DEPENDENT,73868257756
+44333222000111,Funcionario 1 da Padaria Pão de Mel,53404478704,4393537319110000000,TITULAR,
+44333222000111,Dependente 1 (Filho(a)) de Funcionario 1 da Padaria Pão de Mel,40697338052,,DEPENDENT,53404478704
+44333222000111,Dependente 2 (Cônjuge) de Funcionario 1 da Padaria Pão de Mel,49269442858,,DEPENDENT,53404478704
+44333222000111,Dependente 3 (Enteado(a)) de Funcionario 1 da Padaria Pão de Mel,70898660741,,DEPENDENT,53404478704
+44333222000111,Funcionario 2 da Padaria Pão de Mel,95458013706,4396882461010000000,TITULAR,
+44333222000111,Dependente 1 (Filho(a)) de Funcionario 2 da Padaria Pão de Mel,55092382678,,DEPENDENT,95458013706
+44333222000111,Dependente 2 (Cônjuge) de Funcionario 2 da Padaria Pão de Mel,51918423001,,DEPENDENT,95458013706
+44333222000111,Dependente 3 (Enteado(a)) de Funcionario 2 da Padaria Pão de Mel,31585815078,,DEPENDENT,95458013706
+77666555000133,Funcionario 1 da Loja de Roupas Estilo,37990911248,4391903052210000000,TITULAR,
+77666555000133,Dependente 1 (Filho(a)) de Funcionario 1 da Loja de Roupas Estilo,68500543677,,DEPENDENT,37990911248
+77666555000133,Dependente 2 (Cônjuge) de Funcionario 1 da Loja de Roupas Estilo,98660090939,,DEPENDENT,37990911248
+77666555000133,Dependente 3 (Enteado(a)) de Funcionario 1 da Loja de Roupas Estilo,92712778121,,DEPENDENT,37990911248
+77666555000133,Funcionario 2 da Loja de Roupas Estilo,63468437243,4395044426110000000,TITULAR,
+77666555000133,Dependente 1 (Filho(a)) de Funcionario 2 da Loja de Roupas Estilo,10494557349,,DEPENDENT,63468437243
+77666555000133,Dependente 2 (Cônjuge) de Funcionario 2 da Loja de Roupas Estilo,57885960597,,DEPENDENT,63468437243
+77666555000133,Dependente 3 (Enteado(a)) de Funcionario 2 da Loja de Roupas Estilo,43811346539,,DEPENDENT,63468437243
