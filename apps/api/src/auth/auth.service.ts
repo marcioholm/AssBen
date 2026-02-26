@@ -3,8 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { SecurityService } from '../security/security.service';
 import { AdminLoginDto, BeneficiaryLoginDto } from './dto/login.dto';
-import * as bcrypt from 'bcrypt';
-
 @Injectable()
 export class AuthService {
     constructor(
@@ -18,7 +16,7 @@ export class AuthService {
             where: { email: dto.email },
         });
 
-        if (!admin || !(await bcrypt.compare(dto.password, admin.passwordHash))) {
+        if (!admin || !(await this.security.verifyPassword(dto.password, admin.passwordHash))) {
             throw new UnauthorizedException('Credenciais inválidas');
         }
 

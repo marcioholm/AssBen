@@ -40,14 +40,10 @@ export class SecurityService {
     }
 
     async verifyPin(pin: string, hash: string): Promise<boolean> {
-        try {
-            console.log('[DEBUG] Iniciando verifyPin...');
-            const result = await security.verifyPin(pin, hash);
-            console.log('[DEBUG] Resultado verifyPin:', result);
-            return result;
-        } catch (error) {
-            console.error('[SECURITY_SERVICE_ERROR] Falha em verifyPin:', error);
-            throw error;
-        }
+        return security.verifyPin(pin, hash);
+    }
+
+    async verifyPassword(password: string, hash: string): Promise<boolean> {
+        return security.verifyPin(password, hash); // same logic for passwords
     }
 }
