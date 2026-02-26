@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
-import * as argon2 from 'argon2';
 
 const prisma = new PrismaClient();
 
@@ -43,7 +42,7 @@ async function main() {
         { name: "Loja de Roupas Estilo", cnpj: "77666555000133", cat: "Moda" },
     ];
 
-    const pinAssociado = await argon2.hash('1234', { type: argon2.argon2id });
+    const pinAssociado = await bcrypt.hash('1234', 10);
     const dependentsSuffixes = ["Filho(a)", "Cônjuge", "Enteado(a)"];
 
     for (const company of fictitiousCompanies) {
@@ -124,7 +123,7 @@ async function main() {
         }
     });
 
-    const pin = await argon2.hash('1234', { type: argon2.argon2id });
+    const pin = await bcrypt.hash('1234', 10);
 
     // ASSOCIADO (Test User from README)
     await prisma.beneficiario.upsert({
@@ -144,7 +143,7 @@ async function main() {
     });
 
     // Another one without forced change for reference
-    const pinFinal = await argon2.hash('4321', { type: argon2.argon2id });
+    const pinFinal = await bcrypt.hash('4321', 10);
     await prisma.beneficiario.upsert({
         where: { cpfHmac: hashHmac('55566677788') },
         update: {},
