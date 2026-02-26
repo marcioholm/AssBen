@@ -15,13 +15,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     const menuItems = [
         { name: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
-        { name: 'Parceiros', icon: Store, href: '/admin/partners' },
         { name: 'Workflow de Adesão', icon: Network, href: '/admin/workflow-associados' },
         { name: 'Área de Vendas', icon: Presentation, href: '/admin/vendas' },
-        { name: 'Beneficiários', icon: Users, href: '/admin/beneficiaries' },
-        { name: 'Cadastro em Lote', icon: ListPlus, href: '/admin/formularios-cadastro' },
+        { name: 'Cadastro (CSV)', icon: ListPlus, href: '/admin/formularios-cadastro' },
         { name: 'Revalidações', icon: Clock, href: '/admin/revalidacoes' },
-        { name: 'Relatórios', icon: FileBarChart, href: '/admin/reports' },
+        { name: 'Gestão de Parceiros', icon: Store, href: '/associados' },
     ]
 
     return (
