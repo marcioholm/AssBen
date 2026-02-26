@@ -1,7 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const argon2 = require('argon2');
 
 async function main() {
     const databaseUrl = "postgresql://neondb_owner:npg_dJNSI8xtTv7k@ep-green-mountain-aid2xzk0-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
@@ -12,7 +11,7 @@ async function main() {
     });
 
     try {
-        console.log('Iniciando carga no Neon...');
+        console.log('Iniciando carga no Neon (MIGRAÇÃO PARA BCRYPT)...');
         const tenantId = 'acebraz';
         const encryptionKey = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
         const hmacKey = 'hmac_secret_key_random_acebraz_2026_braz';
@@ -52,7 +51,7 @@ async function main() {
             { name: "Loja de Roupas Estilo", cnpj: "77666555000133", cat: "Moda" },
         ];
 
-        const pinAssociado = await argon2.hash('1234', { type: argon2.argon2id });
+        const pinHash = await bcrypt.hash('1234', 10);
 
         for (const company of companies) {
             const p = await prisma.parceiro.upsert({
@@ -75,7 +74,7 @@ async function main() {
                         nome: `Titular ${i} (${company.name})`,
                         cpfCrypt: encrypt(titularCpf),
                         cpfHmac: hashHmac(titularCpf),
-                        pinHash: pinAssociado,
+                        pinHash: pinHash,
                         tipoVinculo: 'FUNCIONARIO',
                         status: 'ATIVO',
                         associadoEmpresaId: p.id,
@@ -91,7 +90,7 @@ async function main() {
                             nome: `Dependente ${j} de ${titular.nome}`,
                             cpfCrypt: encrypt(depCpf),
                             cpfHmac: hashHmac(depCpf),
-                            pinHash: pinAssociado,
+                            pinHash: pinHash,
                             tipoVinculo: 'DEPENDENTE',
                             status: 'ATIVO',
                             associadoEmpresaId: p.id,
@@ -105,7 +104,7 @@ async function main() {
         }
 
         // 3. User Demo from README
-        console.log('Criando Usuário Demo...');
+        console.log('Criando Usuário Demo (José)...');
         const p1 = await prisma.parceiro.upsert({
             where: { cnpj: '12345678000100' },
             update: {},
@@ -118,15 +117,15 @@ async function main() {
             }
         });
 
-        const pin = await argon2.hash('1234', { type: argon2.argon2id });
+        const pinDemo = await bcrypt.hash('1234', 10);
         await prisma.beneficiario.upsert({
             where: { cpfHmac: hashHmac('11122233344') },
-            update: { pinHash: pin, forcarTrocaPin: true },
+            update: { pinHash: pinDemo, forcarTrocaPin: true },
             create: {
                 nome: 'José Beneficiário',
                 cpfCrypt: encrypt('11122233344'),
                 cpfHmac: hashHmac('11122233344'),
-                pinHash: pin,
+                pinHash: pinDemo,
                 tipoVinculo: 'ASSOCIADO',
                 status: 'ATIVO',
                 associadoEmpresaId: p1.id,
