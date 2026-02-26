@@ -8,3 +8,5 @@ coverage/
 .history/
 .idea/
 .vscode/
+.turbo/cache
+.turbo/daemon

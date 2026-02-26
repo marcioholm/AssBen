@@ -33,15 +33,13 @@ export default function HomePage() {
                         </Link>
                     </div>
 
-                    <div className="mt-12 flex items-center gap-6 grayscale opacity-60">
-                        <div className="flex flex-col">
-                            <span className="text-2xl font-bold text-slate-900">100+</span>
-                            <span className="text-xs uppercase tracking-widest font-bold">Empresas</span>
+                    <div className="mt-12 flex items-center gap-6">
+                        <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">
+                            <span className="h-2 w-2 rounded-full bg-green-500"></span> MVP em Produção
                         </div>
-                        <div className="h-8 w-px bg-slate-200"></div>
-                        <div className="flex flex-col">
-                            <span className="text-2xl font-bold text-slate-900">5k+</span>
-                            <span className="text-xs uppercase tracking-widest font-bold">Beneficiários</span>
+                        <div className="h-4 w-px bg-slate-200"></div>
+                        <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">
+                            Pronto para Escalar
                         </div>
                     </div>
                 </div>

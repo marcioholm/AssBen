@@ -1,4 +1,7 @@
-# ACEBRAZ - Clube de Benefícios (MVP)
+# ACEBRAZ - Clube de Benefícios
+
+![Status do Projeto](https://img.shields.io/badge/Status-MVP_em_Produ%C3%A7%C3%A3o-success)
+![Pronto para Escalar](https://img.shields.io/badge/Scale-Pronto_para_Escalar-blue)
 
 Sistema profissional de gestão e validação de benefícios para a Associação Comercial de Wenceslau Braz, focado em **associações comerciais** e **fortalecimento do comércio local**.
 
@@ -18,6 +21,15 @@ A ACEBRAZ desenhou um funil de adesão para garantir previsibilidade e gestão c
 2. **Workflow de Adesão (`/admin/workflow-associados`)**: Acompanhamento do pipeline desde "Lead", passando por "Negociação", até o repasse das regras de "Desconto para Associados, Funcionários e Dependentes".
 3. **Cadastro em Lote (`/admin/formularios-cadastro`)**: Após o fechamento, a ACEBRAZ permite à empresa fornecer um CSV simples com seus funcionários/dependentes, cadastrando centenas de CPFs de uma vez, reduzindo o tempo de onboarding.
 4. **Revalidações (`/admin/revalidacoes`)**: Dashboard que avisa a Associação quais beneficiários vencerão em 30 dias para realização de renovação ou inativação em lote.
+
+## 🔄 Fluxo Principal de Utilização
+
+O ciclo de vida de um benefício funciona da seguinte forma na plataforma:
+
+1. **Beneficiário**: Acessa o aplicativo web (`/beneficiario`) e gera a sua **Carteirinha Digital**.
+2. **Carteirinha QR**: O sistema gera um QR Code dinâmico e criptografado que expira a cada 2 minutos (para prevenir prints de tela e fraudes).
+3. **Balcão Valida**: O parceiro comercial lê esse QR Code com a câmera do celular no portal do lojista (`/balcao`).
+4. **Log de Validação**: O sistema acusa "Aprovado" instantaneamente e registra a validação no Dashboard do administrador.
 
 ## 🚀 Tecnologias
 
@@ -50,11 +62,19 @@ npm run dev
 O backend rodará em `http://localhost:3001`
 O frontend rodará em `http://localhost:3000`
 
-## 📱 Acessos de Teste (MVP Seed)
+### 3. Variáveis de Ambiente
+O projeto precisa de algumas chaves para funcionar localmente. Copie o arquivo `.env.example` para `.env` e preencha com as chaves corretas:
+```bash
+cp .env.example .env
+```
+*(As chaves incluem sua DATABASE_URL, segredos JWT e chaves AES/HMAC para os CPFs).*
 
-- **Admin Web**: `admin@acebraz.com.br` / `adminpassword`
-- **Área do Beneficiário**: CPF `111.222.333-44` / PIN `1234`
-- **Link do Balcão (Parceiro)**: `/balcao?token=demo_token_partner`
+## 📱 Dados de Teste
+
+Para não expor dados sensíveis, a base de dados vem vazia. Para ver a plataforma funcionando:
+
+1. **Rode `npm run db:seed`** (dentro de `packages/db` ou através do script raiz, se configurado) para gerar os dados de teste locais e os usuários fictícios.
+2. A documentação dos logins gerados fica no log do próprio script (Admin, Lojista e Associado Demo).
 
 ---
-Desenvolvido para fortalecer o assossiativismo e gerar valor real para Wenceslau Braz.
+Desenvolvido para fortalecer o associativismo e gerar valor real para Wenceslau Braz.
