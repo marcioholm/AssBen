@@ -8,6 +8,8 @@ import { BeneficiariesModule } from './beneficiaries/beneficiaries.module';
 import { ValidationModule } from './validation/validation.module';
 import { ReportsModule } from './reports/reports.module';
 
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { LgpdController } from './lgpd/lgpd.controller';
 import { RevalidationsModule } from './revalidations/revalidations.module';
 
@@ -23,6 +25,7 @@ import { RevalidationsModule } from './revalidations/revalidations.module';
     ReportsModule,
     RevalidationsModule,
   ],
-  controllers: [LgpdController],
+  controllers: [AppController, LgpdController],
+  providers: [AppService],
 })
 export class AppModule { }
