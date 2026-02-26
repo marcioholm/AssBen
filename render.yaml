@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: api
+    env: node
+    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm --filter db run db:generate && pnpm --filter api run build
+    startCommand: pnpm --filter api run start:prod
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ENCRYPTION_KEY
+        sync: false
+      - key: HMAC_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
