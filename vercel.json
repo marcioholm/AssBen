@@ -1,0 +1,24 @@
+{
+  "builds": [
+    {
+      "src": "apps/web/package.json",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "apps/api/api/index.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "/docs(/?(.*))?", "dest": "apps/api/api/index.ts" },
+    { "src": "/auth(/?(.*))?", "dest": "apps/api/api/index.ts" },
+    { "src": "/validation(/?(.*))?", "dest": "apps/api/api/index.ts" },
+    { "src": "/beneficiaries(/?(.*))?", "dest": "apps/api/api/index.ts" },
+    { "src": "/partners(/?(.*))?", "dest": "apps/api/api/index.ts" },
+    { "src": "/revalidations(/?(.*))?", "dest": "apps/api/api/index.ts" },
+    { "src": "/reports(/?(.*))?", "dest": "apps/api/api/index.ts" },
+    { "src": "/lgpd(/?(.*))?", "dest": "apps/api/api/index.ts" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "apps/web/$1" }
+  ]
+}
